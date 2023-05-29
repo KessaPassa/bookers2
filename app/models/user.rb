@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :books
+  belongs_to :books, optional: true
   has_one_attached :profile_image
 
   # rubocop:todo Rails/UniqueValidationWithoutIndex
