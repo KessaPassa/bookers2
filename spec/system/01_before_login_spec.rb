@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe '[STEP1] ユーザログイン前のテスト' do
@@ -71,36 +73,36 @@ describe '[STEP1] ユーザログイン前のテスト' do
 
     context 'リンクの内容を確認' do
       subject { current_path }
-      
+
       it 'Bookersを押すと、トップ画面に遷移する' do
         home_link = find_all('a')[0].native.inner_text
         home_link = home_link.delete(' ')
-        home_link.gsub!(/\n/, '')
+        home_link.delete!("\n")
         click_link home_link
         is_expected.to eq '/'
       end
       it 'Homeを押すと、トップ画面に遷移する' do
         home_link = find_all('a')[1].native.inner_text
         home_link = home_link.delete(' ')
-        home_link.gsub!(/\n/, '')
+        home_link.delete!("\n")
         click_link home_link
         is_expected.to eq '/'
       end
       it 'Aboutを押すと、アバウト画面に遷移する' do
         about_link = find_all('a')[2].native.inner_text
-        about_link = about_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        about_link = about_link.delete("\n").gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link about_link
         is_expected.to eq '/home/about'
       end
       it 'Sign upを押すと、新規登録画面に遷移する' do
         signup_link = find_all('a')[3].native.inner_text
-        signup_link = signup_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        signup_link = signup_link.delete("\n").gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link signup_link, match: :first
         is_expected.to eq '/users/sign_up'
       end
       it 'Log inを押すと、ログイン画面に遷移する' do
         login_link = find_all('a')[4].native.inner_text
-        login_link = login_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        login_link = login_link.delete("\n").gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link login_link, match: :first
         is_expected.to eq '/users/sign_in'
       end
@@ -149,7 +151,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
       end
       it '新規登録後のリダイレクト先が、新規登録できたユーザの詳細画面になっている' do
         click_button 'Sign up'
-        expect(current_path).to eq '/users/' + User.last.id.to_s
+        expect(current_path).to eq "/users/#{User.last.id}"
       end
     end
   end
@@ -190,7 +192,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
       end
 
       it 'ログイン後のリダイレクト先が、ログインしたユーザの詳細画面になっている' do
-        expect(current_path).to eq '/users/' + user.id.to_s
+        expect(current_path).to eq "/users/#{user.id}"
       end
     end
 
@@ -250,7 +252,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
       fill_in 'user[password]', with: user.password
       click_button 'Log in'
       logout_link = find_all('a')[4].native.inner_text
-      logout_link = logout_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+      logout_link = logout_link.delete("\n").gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
       click_link logout_link
     end
 

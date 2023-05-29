@@ -1,5 +1,12 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :ensure_correct_user, only: [:update]
+
+  def index
+    @users = User.all
+    @book = Book.new
+  end
 
   def show
     @user = User.find(params[:id])
@@ -7,19 +14,13 @@ class UsersController < ApplicationController
     @book = Book.new
   end
 
-  def index
-    @users = User.all
-    @book = Book.new
-  end
-
-  def edit
-  end
+  def edit; end
 
   def update
     if @user.update(user_params)
-      redirect_to users_path(@user), notice: "You have updated user successfully."
+      redirect_to users_path(@user), notice: 'You have updated user successfully.' # rubocop:todo Rails/I18nLocaleTexts
     else
-      render "show"
+      render 'show'
     end
   end
 
@@ -31,8 +32,8 @@ class UsersController < ApplicationController
 
   def ensure_correct_user
     @user = User.find(params[:id])
-    unless @user == current_user
-      redirect_to user_path(current_user)
-    end
+    return if @user == current_user
+
+    redirect_to user_path(current_user)
   end
 end
