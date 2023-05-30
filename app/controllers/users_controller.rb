@@ -14,11 +14,13 @@ class UsersController < ApplicationController
     @book = Book.new
   end
 
-  def edit; end
+  def edit
+    @user = User.find(params[:id])
+  end
 
   def update
     if @user.update(user_params)
-      redirect_to users_path(@user), notice: 'You have updated user successfully.' # rubocop:todo Rails/I18nLocaleTexts
+      redirect_to user_path(@user), notice: 'You have updated user successfully.' # rubocop:todo Rails/I18nLocaleTexts
     else
       render 'show'
     end
