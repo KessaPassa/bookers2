@@ -7,8 +7,12 @@ AllCops:
   NewCops: enable
   SuggestExtensions: false
   Exclude:
-    - bin/*
-    - db/migrate/*
+    - .git/**/*
+    - public/**/*
+    - log/**/*
+    - tmp/**/*
+    - bin/**/*
+    - db/migrate/**/*
     - db/schema.rb
 
 Bundler:
