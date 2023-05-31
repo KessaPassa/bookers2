@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BooksController < ApplicationController
+  before_action :ensure_correct_user, only: %i[edit update destroy]
+
   def index
     @books = Book.all
     @book = Book.new
@@ -45,5 +47,12 @@ class BooksController < ApplicationController
 
   def book_params
     params.require(:book).permit(:title, :body)
+  end
+
+  def ensure_correct_user
+    @book = Book.find(params[:id])
+    return if @book.user.correct_user?(current_user)
+
+    redirect_to books_path
   end
 end

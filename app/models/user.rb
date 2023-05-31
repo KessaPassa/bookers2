@@ -12,6 +12,10 @@ class User < ApplicationRecord
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true # rubocop:todo Rails/UniqueValidationWithoutIndex
   validates :introduction, length: { maximum: 50 }
 
+  def correct_user?(current_user)
+    self == current_user
+  end
+
   def get_profile_image # rubocop:todo Naming/AccessorMethodName
     profile_image.attached? ? profile_image : 'no_image.jpg'
   end
