@@ -1,22 +1,29 @@
-<table class='table table-hover table-inverse'>
-  <thead>
+<div class='books-index'>
+  <table class='table table-hover table-inverse'>
+    <thead>
     <tr>
       <th></th>
       <th>Title</th>
       <th>Opinion</th>
       <th colspan="3"></th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <% books.each do |book| %>
       <tr>
         <td><%= link_to(book.user) do %>
-          <%= image_tag book.user.get_profile_image, size:'50x50' %>
+            <%= image_tag book.user.get_profile_image, size: '50x50' %>
           <% end %>
         </td>
-        <td><%= link_to book.title,book %></td>
+        <td><%= link_to book.title, book %></td>
         <td><%= book.body %></td>
+        <td>
+          <%= link_to(favorite_path(params: { book_id: book.id }), method: :post, class: 'books-index__favorite-link') do %>
+            <%= "♡#{Favorite.where(book:).size}" %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
