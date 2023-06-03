@@ -22,6 +22,7 @@
             <%= "♡#{Favorite.where(book:).size}" %>
           <% end %>
         </td>
+        <td><%= "コメント数: #{Book::Comment.where(book:).size}" %></td>
       </tr>
     <% end %>
     </tbody>

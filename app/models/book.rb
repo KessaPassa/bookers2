@@ -2,6 +2,9 @@
 
 class Book < ApplicationRecord
   belongs_to :user
+
+  has_many :comments, class_name: 'Book::Comment', dependent: :destroy
+
   validates :title, presence: true
   validates :body, presence: true, length: { maximum: 200 }
 end
