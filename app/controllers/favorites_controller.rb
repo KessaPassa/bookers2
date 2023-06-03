@@ -5,6 +5,6 @@ class FavoritesController < ApplicationController
     book = Book.find(params[:book_id])
     Favorite.create_or_destroy!(user: current_user, book:)
 
-    redirect_to user_path(current_user)
+    redirect_to request.referer
   end
 end

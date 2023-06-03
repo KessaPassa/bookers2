@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @books = Book.where(user: @user)
+    @books = Book.preload(:favorites, :comments).where(user: @user)
     @book = Book.new
   end
 

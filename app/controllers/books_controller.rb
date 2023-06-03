@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   before_action :ensure_correct_user, only: %i[edit update destroy]
 
   def index
-    @books = Book.all
+    @books = Book.all.preload(:favorites, :comments)
     @book = Book.new
   end
 

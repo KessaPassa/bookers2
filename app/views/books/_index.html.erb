@@ -19,10 +19,11 @@
         <td><%= book.body %></td>
         <td>
           <%= link_to(favorite_path(params: { book_id: book.id }), method: :post, class: 'books-index__favorite-link') do %>
-            <%= "♡#{Favorite.where(book:).size}" %>
+            <% class_name = book.favorites.size.positive? ? 'books-index__favorite-link__liked' : 'books-index__favorite-link__not-liked' %>
+            <span class='<%= class_name %>'><%= "♡#{book.favorites.size}" %></span>
           <% end %>
         </td>
-        <td><%= "コメント数: #{Book::Comment.where(book:).size}" %></td>
+        <td><%= "コメント数: #{book.comments.size}" %></td>
       </tr>
     <% end %>
     </tbody>

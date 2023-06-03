@@ -1,6 +1,13 @@
 .books-index {
   &__favorite-link {
-    color: red;
     text-decoration: none;
+
+    &__liked {
+      color: red;
+    }
+
+    &__not-liked {
+      color: blue ;
+    }
   }
 }
