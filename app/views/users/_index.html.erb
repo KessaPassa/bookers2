@@ -7,10 +7,17 @@
     </tr>
   </thead>
   <tbody>
+    <% following_user_ids = current_user.following_ids %>
     <% users.each do |user| %>
       <tr>
         <td><%= image_tag user.get_profile_image, size: '50x50' %></td>
         <td><%= user.name %></td>
+        <td><%= "フォロー数: #{user.following.size}" %></td>
+        <td><%= "フォワー数: #{user.followers.size}" %></td>
+        <td>
+          <% link_name = following_user_ids.include?(user.id) ? 'フォロー外す' : 'フォローする' %>
+          <%= link_to(link_name, user_following_index_path(user), method: :post) unless user.correct_user?(current_user) %>
+        </td>
         <td><%= link_to 'Show', user %></td>
       </tr>
     <% end %>

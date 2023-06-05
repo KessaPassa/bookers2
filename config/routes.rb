@@ -16,7 +16,10 @@ Rails.application.routes.draw do
     resources :comments, only: %i[create destroy], module: :books
   end
 
-  resources :users, only: %i[index show edit update]
+  resources :users, only: %i[index show edit update] do
+    resources :following, only: %i[index create], module: :users
+    resources :followers, only: %i[index create], module: :users
+  end
   resource :favorite, only: %i[create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

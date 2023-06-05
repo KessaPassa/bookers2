@@ -1,17 +1,36 @@
 <table class='table'>
-  <tr><%= image_tag user.get_profile_image, size:'100x100' %></tr>
+  <tr><%= image_tag user.get_profile_image, size: '100x100' %></tr>
   <tr>
-	  <th>name</th>
-	  <th><%= user.name %></th>
+    <th>name</th>
+    <th><%= user.name %></th>
   </tr>
   <tr>
-	  <th>introduction</th>
-	  <th><%= user.introduction %></th>
+    <th>introduction</th>
+    <th><%= user.introduction %></th>
+  </tr>
+  <tr>
+    <th>follows</th>
+    <th><%= link_to(user.following.size, user_following_index_path(user)) %></th>
+  </tr>
+  <tr>
+    <th>followers</th>
+    <th><%= link_to(user.followers.size, user_followers_path(user)) %></th>
   </tr>
 </table>
+
+<% unless user.correct_user?(current_user) %>
+  <% link_name = current_user.following_ids.include?(user.id) ? 'フォロー外す' : 'フォローする' %>
+  <div class='row'>
+    <%= link_to(user_following_index_path(user), method: :post, class: 'btn btn-success') do %>
+      <%= link_name %>
+    <% end %>
+  </div>
+<% end %>
 　
-<div class='row'>
-  <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
-    <i class="fas fa-user-cog"></i>
-  <% end %>
-</div>
+<% if user.correct_user?(current_user) %>
+  <div class='row'>
+    <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
+      <i class="fas fa-user-cog"></i>
+    <% end %>
+  </div>
+<% end %>
