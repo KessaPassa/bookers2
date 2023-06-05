@@ -21,5 +21,6 @@ Rails.application.routes.draw do
     resources :followers, only: %i[index create], module: :users
   end
   resource :favorite, only: %i[create]
+  resources :searches, only: %i[index]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
