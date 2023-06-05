@@ -21,6 +21,21 @@ class User < ApplicationRecord
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true # rubocop:todo Rails/UniqueValidationWithoutIndex
   validates :introduction, length: { maximum: 50 }
 
+  scope :search, lambda { |word, matching_kind|
+    case matching_kind
+    when '0'
+      model.where(name: word)
+    when '1'
+      model.where('name LIKE ?', "%#{word}")
+    when '2'
+      model.where('name LIKE ?', "#{word}%")
+    when '3'
+      model.where('name LIKE ?', "%#{word}%")
+    else
+      none
+    end
+  }
+
   def correct_user?(current_user)
     self == current_user
   end
