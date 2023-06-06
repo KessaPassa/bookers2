@@ -9,10 +9,14 @@ class Book < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true, length: { maximum: 200 }
 
+  scope :within_created_at, lambda { |from, to|
+    where(created_at: from..to)
+  }
+
   scope :sort_by_last_week_popular, lambda {
     book_ids =
       left_joins(:favorites)
-      .where(favorites: { created_at: 6.days.ago.beginning_of_day..Time.zone.now.end_of_day })
+      .where(favorites: { created_at: 1.week.ago.beginning_of_day..Time.zone.now.end_of_day })
       .group(:id)
       .order(Arel.sql('COUNT(books.id) DESC'))
       .ids

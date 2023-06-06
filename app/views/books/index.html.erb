@@ -10,6 +10,37 @@
       <%= render 'application/search' %>
       <h2>Books</h2>
       <%= render 'index', books: @books %>
+      <h2>投稿数の前日比・前週比</h2>
+      <table class="table mb-3">
+        <tr>
+          <th>今日の投稿数</th>
+          <th>前日の投稿数</th>
+          <th>前日比</th>
+        </tr>
+        <tr>
+          <% today_count = @books.within_created_at(Time.zone.now.beginning_of_day, Time.zone.now.end_of_day).size %>
+          <% yesterday_count = @books.within_created_at(1.day.ago.beginning_of_day, 1.day.ago.end_of_day).size %>
+          <% div_result = today_count.to_f / (yesterday_count.zero? ? 1.0 : yesterday_count.to_f) %>
+          <td><%= today_count %></td>
+          <td><%= yesterday_count %></td>
+          <td><%= sprintf("%.0f", div_result * 100) %>%</td>
+        </tr>
+      </table>
+      <table class="table mb-3">
+        <tr>
+          <th>今週の投稿数</th>
+          <th>前週の投稿数</th>
+          <th>前週比</th>
+        </tr>
+        <tr>
+          <% this_week_count = @books.within_created_at(Time.zone.now.beginning_of_week, Time.zone.now.end_of_week).size %>
+          <% last_week_count = @books.within_created_at(1.week.ago.beginning_of_week, 1.week.ago.end_of_week).size %>
+          <% div_result = this_week_count.to_f / (last_week_count.zero? ? 1.0 : last_week_count.to_f) %>
+          <td><%= this_week_count %></td>
+          <td><%= last_week_count %></td>
+          <td><%= sprintf("%.0f", div_result * 100) %>%</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
