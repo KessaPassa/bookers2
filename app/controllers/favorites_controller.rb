@@ -2,9 +2,9 @@
 
 class FavoritesController < ApplicationController
   def create
-    book = Book.find(params[:book_id])
-    Favorite.create_or_destroy!(user: current_user, book:)
+    @book = Book.find(params[:book_id])
+    Favorite.create_or_destroy!(user: current_user, book: @book)
 
-    redirect_to request.referer
+    render 'create.js.erb'
   end
 end

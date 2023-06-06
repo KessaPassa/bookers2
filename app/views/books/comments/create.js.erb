@@ -1,0 +1,5 @@
+$("#book-comments").append(
+    "<%= escape_javascript(render partial: 'books/comment', locals: { comment: @comment }) %>"
+);
+
+$("#book_comment_content").val('');
