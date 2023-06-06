@@ -1,0 +1,4 @@
+<%= link_to(favorite_path(params: { book_id: book.id }), method: :post, remote: true, class: 'books-index__favorite-link') do %>
+  <% class_name = book.favorites.size.positive? ? 'books-index__favorite-link__liked' : 'books-index__favorite-link__not-liked' %>
+  <span class='<%= class_name %>'><%= "♡#{book.favorites.size}" %></span>
+<% end %>
