@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Group < ApplicationRecord
-  has_one :owner, class_name: 'User', foreign_key: :id,
+  has_one :owner, class_name: 'User', foreign_key: :id, primary_key: :owner_id,
                   inverse_of: :groups, dependent: :destroy
 
   has_one_attached :image
@@ -11,5 +11,9 @@ class Group < ApplicationRecord
 
   def attached_image
     image.attached? ? image : 'no_image.jpg'
+  end
+
+  def owner?(current_user)
+    owner == current_user
   end
 end
