@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_03_181400) do
+ActiveRecord::Schema.define(version: 2023_06_07_144339) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -68,6 +68,15 @@ ActiveRecord::Schema.define(version: 2023_06_03_181400) do
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.integer "owner_id"
+    t.string "name", null: false
+    t.text "introduction", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_groups_on_name", unique: true
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer "followed_id"
     t.integer "follower_id"
@@ -76,6 +85,15 @@ ActiveRecord::Schema.define(version: 2023_06_03_181400) do
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
+  create_table "user_groups", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_user_groups_on_group_id"
+    t.index ["user_id"], name: "index_user_groups_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,4 +116,6 @@ ActiveRecord::Schema.define(version: 2023_06_03_181400) do
   add_foreign_key "book_comments", "users"
   add_foreign_key "favorites", "books"
   add_foreign_key "favorites", "users"
+  add_foreign_key "user_groups", "groups"
+  add_foreign_key "user_groups", "users"
 end

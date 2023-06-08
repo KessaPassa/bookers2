@@ -22,5 +22,6 @@ Rails.application.routes.draw do
   end
   resource :favorite, only: %i[create]
   resources :searches, only: %i[index]
+  resources :groups, only: %i[index new edit create update]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
