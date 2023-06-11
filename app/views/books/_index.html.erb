@@ -26,17 +26,21 @@
         </td>
         <td><%= "コメント数: #{book.comments.size}" %></td>
       </tr>
-      <script>
-          $('#star-rate-<%= book.id %>').empty();
-          raty($('#star-rate-<%= book.id %>')[0], {
-              starOff: '<%= image_path('star-off.png') %>',
-              starOn: '<%= image_path('star-on.png') %>',
-              half: false,
-              readOnly: true,
-              score: <%= book&.star %>,
-          });
-      </script>
     <% end %>
     </tbody>
   </table>
 </div>
+
+<script>
+    const books = <%= raw @books.to_json %>;
+    books.forEach((book) => {
+        $(`#star-rate-${book.id}`).empty();
+        raty($(`#star-rate-${book.id}`)[0], {
+            starOff: '<%= image_path('star-off.png') %>',
+            starOn: '<%= image_path('star-on.png') %>',
+            half: false,
+            readOnly: true,
+            score: book.star || 0,
+        });
+    });
+</script>

@@ -39,4 +39,8 @@ class Book < ApplicationRecord
       none
     end
   }
+
+  def self.aggregate_created_at_by_date(from, to)
+    where(created_at: from..to).group('Date(created_at)').count
+  end
 end

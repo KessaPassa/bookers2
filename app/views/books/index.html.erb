@@ -10,6 +10,7 @@
       <%= render 'application/search' %>
       <h2>Books</h2>
       <%= render 'index', books: @books %>
+
       <h2>投稿数の前日比・前週比</h2>
       <table class="table mb-3">
         <tr>
@@ -41,6 +42,45 @@
           <td><%= sprintf("%.0f", div_result * 100) %>%</td>
         </tr>
       </table>
+
+      <h2>7日分の投稿数</h2>
+      <table class="table mb-3">
+        <tr>
+          <% @date_count.keys.each do |date| %>
+            <th><%= date %></th>
+          <% end %>
+        </tr>
+        <tr>
+          <% @date_count.values.each do |count| %>
+            <td><%= count %></td>
+          <% end %>
+        </tr>
+      </table>
+      <canvas id="date-count-chart"></canvas>
     </div>
   </div>
 </div>
+
+<script>
+    $(document).on('turbolinks:load', function () {
+        const ctx = document.getElementById('date-count-chart');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <%= raw @date_count.keys %>,
+                datasets: [{
+                    label: '投稿したほんの数',
+                    data: <%= @date_count.values %>,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
