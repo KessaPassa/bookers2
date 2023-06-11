@@ -3,6 +3,8 @@
 class Group < ApplicationRecord
   has_one :owner, class_name: 'User', foreign_key: :id, primary_key: :owner_id,
                   inverse_of: :groups, dependent: :destroy
+  has_many :group_users, class_name: 'User::Group', dependent: :destroy
+  has_many :members, through: :group_users, source: :user
 
   has_one_attached :image
 

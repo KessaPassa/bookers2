@@ -22,7 +22,9 @@ Rails.application.routes.draw do
   end
   resource :favorite, only: %i[create]
   resources :searches, only: %i[index]
-  resources :groups, only: %i[index new edit create update]
+  resources :groups, only: %i[index new show edit create update] do
+    resource :join, only: %i[create], module: :groups
+  end
   resources :direct_messages, only: %i[show create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

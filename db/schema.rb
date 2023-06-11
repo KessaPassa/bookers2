@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_08_175351) do
+ActiveRecord::Schema.define(version: 2023_06_11_165519) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2023_06_08_175351) do
     t.text "introduction", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_gｓroups_on_name", unique: true
+    t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 2023_06_08_175351) do
     t.integer "group_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id", "user_id"], name: "index_user_groups_on_group_id_and_user_id", unique: true
     t.index ["group_id"], name: "index_user_groups_on_group_id"
     t.index ["user_id"], name: "index_user_groups_on_user_id"
   end

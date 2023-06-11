@@ -6,6 +6,11 @@ class GroupsController < ApplicationController
     @groups = Group.all.with_attached_image
   end
 
+  def show
+    @group = Group.find(params[:id])
+    @book = Book.new
+  end
+
   def new
     @group = Group.new
   end
@@ -18,6 +23,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     @group.owner_id = current_user.id
+    @group.group_users.build(user_id: current_user.id)
     if @group.save
       redirect_to groups_path, notice: 'You have created user successfully.' # rubocop:todo Rails/I18nLocaleTexts
     else

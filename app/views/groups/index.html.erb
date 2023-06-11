@@ -18,8 +18,9 @@
         <% @groups.each do |group| %>
           <tr>
             <td><%= image_tag(group.attached_image, size: '100x100') %></td>
-            <td><%= group.name %></td>
+            <td><%= link_to(group.name, group_path(group)) %></td>
             <td><%= group.introduction %></td>
+            <td><% group.members.size %></td>
             <td>
               <% if group.owner?(current_user) %>
                 <%= link_to('Edit', edit_group_path(group), class: 'btn btn-success') %>
