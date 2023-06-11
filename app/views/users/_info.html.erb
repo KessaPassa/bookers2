@@ -19,12 +19,26 @@
 </table>
 
 <% unless user.correct_user?(current_user) %>
-  <% link_name = current_user.following_ids.include?(user.id) ? 'フォロー外す' : 'フォローする' %>
   <div class='row'>
-    <%= link_to(user_following_index_path(user), method: :post, class: 'btn btn-success') do %>
-      <%= link_name %>
+    <div class='col-md-6'>
+      <% if current_user.following_ids.include?(user.id) %>
+        <%= link_to(user_following_index_path(user), method: :post, class: 'btn btn-primary') do %>
+          フォロー外す
+        <% end %>
+      <% else %>
+        <%= link_to(user_following_index_path(user), method: :post, class: 'btn btn-success') do %>
+          フォローする
+        <% end %>
+      <% end %>
+    </div>
+    <% if current_user.mutual_follow?(user) %>
+      <div class='col-md-6'>
+        <%= link_to direct_message_path(user) do %>
+          chatを始める
+        <% end %>
+      </div>
+      </div>
     <% end %>
-  </div>
 <% end %>
 　
 <% if user.correct_user?(current_user) %>

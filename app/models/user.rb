@@ -17,6 +17,10 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :group_users, class_name: 'User::Group', dependent: :destroy
   has_many :groups, through: :group_users
+  has_many :senders, class_name: 'DirectMessage', foreign_key: :sender_id,
+                     inverse_of: :sender, dependent: :destroy
+  has_many :receivers, class_name: 'DirectMessage', foreign_key: :receiver_id,
+                       inverse_of: :receiver, dependent: :destroy
 
   has_one_attached :profile_image
 
@@ -42,7 +46,21 @@ class User < ApplicationRecord
     self == current_user
   end
 
+  def mutual_follow?(user)
+    mutual_follow_users.include?(user)
+  end
+
   def get_profile_image # rubocop:todo Naming/AccessorMethodName
     profile_image.attached? ? profile_image : 'no_image.jpg'
+  end
+
+  private
+
+  def mutual_follow_users
+    Relationship
+      .includes(:followed)
+      .where(follower: self)
+      .where(followed: followers)
+      .map(&:followed)
   end
 end

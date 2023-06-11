@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_08_161140) do
+ActiveRecord::Schema.define(version: 2023_06_08_175351) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -59,6 +59,14 @@ ActiveRecord::Schema.define(version: 2023_06_08_161140) do
     t.string "star"
   end
 
+  create_table "direct_messages", force: :cascade do |t|
+    t.integer "sender_id", null: false
+    t.integer "receiver_id", null: false
+    t.string "body", limit: 140, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "favorites", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "book_id", null: false
@@ -75,7 +83,7 @@ ActiveRecord::Schema.define(version: 2023_06_08_161140) do
     t.text "introduction", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_groups_on_name", unique: true
+    t.index ["name"], name: "index_gｓroups_on_name", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
