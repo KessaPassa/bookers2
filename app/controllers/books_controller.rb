@@ -6,6 +6,16 @@ class BooksController < ApplicationController
   def index
     @books = Book.all.preload(:favorites, :comments).sort_by_last_week_popular
     @book = Book.new
+
+    from = 6.days.ago.to_date
+    to = Time.zone.now.to_date
+    count_by_date = Book.aggregate_created_at_by_date(from, to)
+    @date_count = (from..to).map do |date|
+      key = date.strftime('%Y-%m-%d')
+      next [key, 0] unless count_by_date.keys.include?(key)
+
+      [key, count_by_date[key]]
+    end.to_h
   end
 
   def show
