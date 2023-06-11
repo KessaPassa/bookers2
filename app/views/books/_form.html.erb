@@ -25,6 +25,6 @@
         scoreName: 'book[star]',
         half: false,
         readOnly: <%= book.star.present? %>,
-        score: '<%= book.star %>',
+        score: <%= book.star || 0 %>,
     });
 </script>

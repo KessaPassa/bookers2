@@ -6,16 +6,7 @@ class BooksController < ApplicationController
   def index
     @books = Book.all.preload(:favorites, :comments).sort_by_last_week_popular
     @book = Book.new
-
-    from = 6.days.ago.to_date
-    to = Time.zone.now.to_date
-    count_by_date = Book.aggregate_created_at_by_date(from, to)
-    @date_count = (from..to).map do |date|
-      key = date.strftime('%Y-%m-%d')
-      next [key, 0] unless count_by_date.keys.include?(key)
-
-      [key, count_by_date[key]]
-    end.to_h
+    @date_count = date_count_hash
   end
 
   def show
@@ -66,5 +57,21 @@ class BooksController < ApplicationController
     return if @book.user.correct_user?(current_user)
 
     redirect_to books_path
+  end
+
+  def date_count_hash
+    from = 6.days.ago.to_date
+    to = Time.zone.now.to_date
+    count_by_date = Book.aggregate_created_at_by_date(from, to)
+
+    (from..to).to_h do |date|
+      prev_date_num = (Time.zone.today - date).to_i
+      prev_date_text = prev_date_num.zero? ? '今日' : "#{prev_date_num}日前"
+
+      key = date.strftime('%Y-%m-%d')
+      next [prev_date_text, 0] unless count_by_date.key?(key)
+
+      [prev_date_text, count_by_date[key]]
+    end
   end
 end
