@@ -3,7 +3,7 @@
 class GroupsController < ApplicationController
   def index
     @book = Book.new
-    @groups = Group.all.with_attached_image
+    @groups = Group.all.preload(:owner, :members).with_attached_image
   end
 
   def show
