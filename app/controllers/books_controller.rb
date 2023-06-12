@@ -3,8 +3,10 @@
 class BooksController < ApplicationController
   before_action :ensure_correct_user, only: %i[edit update destroy]
 
+  ORDER_TYPE = %w[created_at_desc star_desc].freeze
+
   def index
-    @books = Book.all.preload(:favorites, :comments).sort_by_last_week_popular
+    @books = Book.all.preload(:favorites, :comments).sort_by_params(params[:order])
     @book = Book.new
     @date_count = date_count_hash
   end
