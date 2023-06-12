@@ -13,6 +13,7 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
+    @book.update!(access_count: @book.access_count + 1) unless @book.user.correct_user?(current_user)
     @new_book = Book.new
     @book_comments = Book::Comment.preload(:user).where(book: @book)
     @book_comment = current_user.book_comments.build(book: @book)
