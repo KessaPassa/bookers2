@@ -9,6 +9,9 @@
     <div class='col-md-8 offset-md-1'>
       <%= render 'application/search' %>
       <h2>Books</h2>
+      <%= link_to('新しい順番', books_path(order: 'created_at_desc')) %>
+      &nbsp;|&nbsp;
+      <%= link_to('評価の高い順', books_path(order: 'star_desc')) %>
       <%= render 'index', books: @books %>
 
       <h2>投稿数の前日比・前週比</h2>

@@ -9,8 +9,19 @@ class Book < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true, length: { maximum: 200 }
 
+  ORDER_TYPE = %w[created_at_desc star_desc].freeze
+
   scope :within_created_at, lambda { |from, to|
     where(created_at: from..to)
+  }
+
+  scope :sort_by_params, lambda { |order_type|
+    if ORDER_TYPE.include?(order_type)
+      return order(created_at: :desc) if order_type == 'created_at_desc'
+      return order(star: :desc) if order_type == 'star_desc'
+    else
+      sort_by_last_week_popular
+    end
   }
 
   scope :sort_by_last_week_popular, lambda {
