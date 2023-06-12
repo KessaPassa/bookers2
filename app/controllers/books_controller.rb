@@ -49,6 +49,14 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
+  def date_count
+    date = params[:book][:created_at].to_date
+    books = Book.where(created_at: date.all_day)
+    @date_count = books.size
+
+    render 'date_count.js.erb'
+  end
+
   private
 
   def book_params

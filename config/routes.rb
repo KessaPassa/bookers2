@@ -14,6 +14,9 @@ Rails.application.routes.draw do
 
   resources :books, only: %i[index show edit create destroy update] do
     resources :comments, only: %i[create destroy], module: :books
+    collection do
+      get :date_count
+    end
   end
 
   resources :users, only: %i[index show edit update] do

@@ -59,7 +59,14 @@
           <% end %>
         </tr>
       </table>
-      <canvas id="date-count-chart"></canvas>
+      <canvas id="date-count-chart" class="mt-5 mb-5"></canvas>
+      <div class="date-search">
+        <%= form_with model: Book.new, url: date_count_books_path, method: :get, local: false do |f| %>
+          <%= f.date_field :created_at %>
+          <%= f.submit '検索', class: 'btn btn-primary' %>
+        <% end %>
+        <div id="book-date-count"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -67,7 +74,10 @@
 <script>
     $(document).on('turbolinks:load', function () {
         const ctx = document.getElementById('date-count-chart');
-        new Chart(ctx, {
+        if (window.dataCountChart)
+            window.dataCountChart.destroy();
+
+        window.dataCountChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: <%= raw @date_count.keys %>,
