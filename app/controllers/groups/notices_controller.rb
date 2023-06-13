@@ -10,7 +10,10 @@ class Groups::NoticesController < ApplicationController
     group_notice = Group::Notice.new(group_notice_params)
     group_notice.group = group
     group_notice.save!
-    NoticeMailer.group_notice(group_notice:).deliver_later
+
+    group.members.each do |member|
+      NoticeMailer.group_notice(group_notice:, member:).deliver_later
+    end
 
     render 'send_complete'
   end
