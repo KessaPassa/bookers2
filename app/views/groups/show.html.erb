@@ -15,6 +15,7 @@
           <th>紹介文</th>
           <th>メンバー</th>
           <th></th>
+          <th></th>
         </tr>
         <tr>
           <td><%= image_tag(@group.attached_image, size: '100x100') %></td>
@@ -28,6 +29,11 @@
               <% else %>
                 <%= link_to('Join this group', group_join_path(@group), method: :post, class: 'btn btn-success') %>
               <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if @group.owner?(current_user) %>
+              <%= link_to('Notice an Event', new_group_notice_path(@group), class: 'btn btn-info') %>
             <% end %>
           </td>
         </tr>

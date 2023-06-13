@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :searches, only: %i[index]
   resources :groups, only: %i[index new show edit create update] do
     resource :join, only: %i[create], module: :groups
+    resources :notices, only: %i[new create], module: :groups
   end
   resources :direct_messages, only: %i[show create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
