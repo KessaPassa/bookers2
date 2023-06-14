@@ -12,4 +12,11 @@ class SearchesController < ApplicationController
 
     render model_name.downcase.pluralize
   end
+
+  def book_tags
+    @books = Book.all
+    return if params[:keyword].blank?
+
+    @books = Book.where('tag LIKE ?', "%#{params[:keyword]}%")
+  end
 end

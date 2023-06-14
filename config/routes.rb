@@ -24,7 +24,11 @@ Rails.application.routes.draw do
     resources :followers, only: %i[index create], module: :users
   end
   resource :favorite, only: %i[create]
-  resources :searches, only: %i[index]
+  resources :searches, only: %i[index] do
+    collection do
+      get :book_tags
+    end
+  end
   resources :groups, only: %i[index new show edit create update] do
     resource :join, only: %i[create], module: :groups
     resources :notices, only: %i[new create], module: :groups

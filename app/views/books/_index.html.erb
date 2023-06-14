@@ -5,6 +5,7 @@
       <th></th>
       <th>Title</th>
       <th>Opinion</th>
+      <th>Tag</th>
       <th colspan="3"></th>
     </tr>
     </thead>
@@ -18,6 +19,7 @@
         </td>
         <td><%= link_to book.title, book %></td>
         <td><%= book.body %></td>
+        <td><%= book.tag %></td>
         <td>
           <div id="star-rate-<%= book.id %>"></div>
         </td>
@@ -35,6 +37,8 @@
 <script>
     $(document).on('turbolinks:load', function () {
         const books = <%= raw @books.to_json %>;
+        if(books === null) return;
+
         books.forEach((book) => {
             $(`#star-rate-${book.id}`).empty();
             raty($(`#star-rate-${book.id}`)[0], {
