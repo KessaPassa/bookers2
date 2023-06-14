@@ -19,6 +19,8 @@ ActiveStorage.start()
 
 import Raty from "../raty"
 window.raty = function(elem,opt) {
+    if (!elem) return;
+
     let raty =  new Raty(elem,opt)
     raty.init();
     return raty;
