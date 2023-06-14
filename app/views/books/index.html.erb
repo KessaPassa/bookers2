@@ -74,6 +74,8 @@
 <script>
     $(document).on('turbolinks:load', function () {
         const ctx = document.getElementById('date-count-chart');
+        if (!ctx) return;
+
         if (window.dataCountChart)
             window.dataCountChart.destroy();
 

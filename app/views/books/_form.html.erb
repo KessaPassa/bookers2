@@ -23,6 +23,9 @@
 
 <script>
     $(document).on('turbolinks:load', function () {
+        const book = <%= raw book.to_json %>;
+        if(!book) return;
+
         $('#star').empty()
         raty($('#star')[0], {
             starOff: '<%= image_path('star-off.png') %>',
@@ -30,7 +33,7 @@
             scoreName: 'book[star]',
             half: false,
             readOnly: <%= book.star.present? %>,
-            score: <%= book.star || 0 %>,
+            score: book.star || 0,
         });
     });
 </script>

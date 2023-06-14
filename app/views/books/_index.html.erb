@@ -37,7 +37,7 @@
 <script>
     $(document).on('turbolinks:load', function () {
         const books = <%= raw @books.to_json %>;
-        if(books === null) return;
+        if(!books) return;
 
         books.forEach((book) => {
             $(`#star-rate-${book.id}`).empty();
