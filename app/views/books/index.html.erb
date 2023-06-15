@@ -71,29 +71,33 @@
   </div>
 </div>
 
-<script>
-    $(document).on('turbolinks:load', function () {
-        const ctx = document.getElementById('date-count-chart');
-        if (window.dataCountChart)
-            window.dataCountChart.destroy();
+<% content_for(:javascript) do %>
+  <script>
+      $(document).on('turbolinks:load', function () {
+          if (window.dataCountChart)
+              window.dataCountChart.destroy();
 
-        window.dataCountChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <%= raw @date_count.keys %>,
-                datasets: [{
-                    label: '投稿したほんの数',
-                    data: <%= @date_count.values %>,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    });
-</script>
+          const ctx = document.getElementById('date-count-chart');
+          if (!ctx) return;
+
+          window.dataCountChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: <%= raw @date_count.keys %>,
+                  datasets: [{
+                      label: '投稿した本の数',
+                      data: <%= @date_count.values %>,
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+      });
+  </script>
+<% end %>
