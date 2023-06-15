@@ -52,18 +52,20 @@
   </div>
 </div>
 
-<script>
-    $(document).on('turbolinks:load', function () {
-        const book = <%= raw @book.to_json %>;
-        if(!book) return;
+<% content_for(:javascript) do %>
+  <script>
+      $(document).on('turbolinks:load', function () {
+          const book = <%= raw @book.to_json %>;
+          if (!book) return;
 
-        $(`#star-rate-${book.id}`).empty();
-        raty($(`#star-rate-${book.id}`)[0], {
-            starOff: '<%= image_path('star-off.png') %>',
-            starOn: '<%= image_path('star-on.png') %>',
-            half: false,
-            readOnly: true,
-            score: book.star || 0,
-        });
-    });
-</script>
+          $(`#star-rate-${book.id}`).empty();
+          raty($(`#star-rate-${book.id}`)[0], {
+              starOff: '<%= image_path('star-off.png') %>',
+              starOn: '<%= image_path('star-on.png') %>',
+              half: false,
+              readOnly: true,
+              score: book.star || 0,
+          });
+      });
+  </script>
+<% end %>
